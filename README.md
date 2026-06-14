@@ -12,7 +12,7 @@ It supports the following output formats:
 * default: plain CortexXDR XQL queries
 * json: JSON-formatted CortexXDR XQL queries
 
-This backend is currently maintained by:
+This backend is currently maintained by (they dont accept forks or fixes from strangers, so i have to do this fork):
 
 * [Cori Smith](https://github.com/7RedViolin/)
 * [RCEMaddox](https://github.com/RCEMaddox/)
@@ -113,3 +113,7 @@ print(backend.convert_rule(rule)[0])
   - `src_ip`
   - `src_port`
 - Any unsupported fields or categories will throw errors
+
+14/06/2026 - Parches from user [v1ctorp1vert](https://github.com/7RedViolin/pySigma-backend-cortexxdr/pull/18/changes#diff-908c78691c45e3e6bf6db72ea0a225eeccff7c60ab84e0bfa964ac7b4e3d7d6b) applied for fixing the mapping in pipelines/cortexxdr.py, the test part is not included.
+
+Thanks to v1ctorp1vert for fixing the bad parameters. ❤️
