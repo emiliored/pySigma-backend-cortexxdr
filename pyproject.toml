@@ -24,3 +24,13 @@ coverage = "^7.2.5"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "pep440"
+metadata = false
+dirty = false
+
+[tool.poetry-dynamic-versioning.substitution]
+files = ["sigma/backends/cortexxdr/__init__.py"]
