@@ -11,7 +11,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-pysigma = ">=0.9.8"
+pysigma = ">=0.11.3,<1.0.0"
 
 [tool.poetry.dev-dependencies]
 
@@ -26,7 +26,7 @@ requires = ["poetry-core>=1.8.1"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry-dynamic-versioning]
-enable = true
+enable = false
 vcs = "git"
 style = "pep440"
 metadata = false
