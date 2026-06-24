@@ -214,8 +214,8 @@ def test_cortexxdr_file_mapping(cortexxdr_backend : CortexXDRBackend):
                 condition: sel
         """)
     ) == ['''config case_sensitive = false | preset=xdr_file | filter event_type = ENUM.FILE and 
- (action_file_name = "foo bar" and 
- action_file_previous_file_name = "bar foo")''']
+ (action_file_path = "foo bar" and 
+ action_file_previous_file_path = "bar foo")''']
 
 def test_cortexxdr_image_load_mapping(cortexxdr_backend : CortexXDRBackend):
     assert cortexxdr_backend.convert(
@@ -276,19 +276,13 @@ def test_cortexxdr_network_mapping(cortexxdr_backend : CortexXDRBackend):
                 condition: sel
         """)
     ) == ['''config case_sensitive = false | preset=network_story | filter event_type = ENUM.NETWORK and 
- ((action_local_port = 135 or 
- action_remote_port = 135) and 
- (action_local_ip = "1.1.1.1" or 
- action_remote_ip = "1.1.1.1") and 
+ (action_local_port = 135 and 
+ action_local_ip = "1.1.1.1" and 
  action_network_protocol = "udp" and 
- (action_local_ip = "2.2.2.2" or 
- action_remote_ip = "2.2.2.2") and 
- (action_local_port = 80 or 
- action_remote_port = 80) and 
- (action_local_ip = "3.3.3.3" or 
- action_remote_ip = "3.3.3.3") and 
- (action_local_port = 8080 or 
- action_remote_port = 8080))''']
+ action_remote_ip = "2.2.2.2" and 
+ action_remote_port = 80 and 
+ action_local_ip = "3.3.3.3" and 
+ action_local_port = 8080)''']
 
 def test_cortexxdr_unsupported_rule_type(cortexxdr_backend : CortexXDRBackend):
   with pytest.raises(ValueError):
