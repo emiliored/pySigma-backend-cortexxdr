@@ -180,7 +180,9 @@ def test_cortexxdr_json_output(cortexxdr_backend : CortexXDRBackend):
                     Image: valueA
                 condition: sel
         """), "json"
-    ) == {"queries":[{"query":'config case_sensitive = false | preset=xdr_process | filter (event_type = ENUM.PROCESS and \n event_sub_type = ENUM.PROCESS_START) and \n action_process_image_path = "valueA"', "title":"Test", "id":None, "description":None}]}
+    ) == {"queries":[{"query":'''config case_sensitive = false | preset=xdr_process | filter (event_type = ENUM.PROCESS and 
+ event_sub_type = ENUM.PROCESS_START) and 
+ action_process_image_path = "valueA"''', "title":"Test", "id":None, "description":None}]}
 
 def test_cortexxdr_returned_fields(cortexxdr_backend : CortexXDRBackend):
     assert cortexxdr_backend.convert(
@@ -201,3 +203,55 @@ def test_cortexxdr_returned_fields(cortexxdr_backend : CortexXDRBackend):
     ) == ['''config case_sensitive = false | preset=xdr_process | filter (event_type = ENUM.PROCESS and 
  event_sub_type = ENUM.PROCESS_START) and 
  action_process_image_path = "valueA" | fields action_process_image_path,action_process_image_command_line''']
+
+def test_cortexxdr_default_output_sigma_v2_tags(cortexxdr_backend: CortexXDRBackend):
+    assert cortexxdr_backend.convert(
+        SigmaCollection.from_yaml("""
+            title: Test Sigma v2 Compatible Rule
+            id: 11111111-1111-4111-8111-111111111111
+            status: test
+            description: Rule with Sigma v2 style metadata
+            logsource:
+                category: process_creation
+                product: windows
+            detection:
+                sel:
+                    Image: valueA
+                condition: sel
+            tags:
+                - attack.execution
+        """)
+    ) == ['''config case_sensitive = false | preset=xdr_process | filter (event_type = ENUM.PROCESS and 
+ event_sub_type = ENUM.PROCESS_START) and 
+ (agent_os_type = ENUM.AGENT_OS_WINDOWS and 
+ action_process_image_path = "valueA")''']
+
+def test_cortexxdr_default_output_sigma_v3_metadata(cortexxdr_backend: CortexXDRBackend):
+    assert cortexxdr_backend.convert(
+        SigmaCollection.from_yaml("""
+            title: Test Sigma v3 Compatible Rule
+            id: 22222222-2222-4222-8222-222222222222
+            status: stable
+            description: Rule with Sigma v3 style metadata extensions
+            references:
+                - https://example.org/reference
+            author: Test Author
+            date: 2024-01-01
+            modified: 2024-02-01
+            level: medium
+            falsepositives:
+                - Administrator activity
+            tags:
+                - attack.t1059
+            logsource:
+                category: process_creation
+                product: linux
+            detection:
+                sel:
+                    Image|contains: bash
+                condition: sel
+        """)
+    ) == ['''config case_sensitive = false | preset=xdr_process | filter (event_type = ENUM.PROCESS and 
+ event_sub_type = ENUM.PROCESS_START) and 
+ (agent_os_type = ENUM.AGENT_OS_LINUX and 
+ action_process_image_path contains "bash")''']
