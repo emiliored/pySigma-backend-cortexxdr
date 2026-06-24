@@ -25,7 +25,7 @@ class ReplaceIntegrityLevelQueryTransformation(QueryPostprocessingTransformation
     """Replace query part specified by regular expression with a given string."""
 
     def apply(
-        self, pipeline: "sigma.processing.pipeline.ProcessingPipeline", rule: SigmaRule, query: Union[str, dict]
+        self, rule: SigmaRule, query: Union[str, dict]
     ) -> Union[str, dict]:
 
         if isinstance(query, dict):
@@ -37,7 +37,7 @@ class ReplaceIntegrityLevelQueryTransformation(QueryPostprocessingTransformation
         self.identifier = 'replace_integrity_thing'
         field_name = 'action_process_integrity_level'
 
-        super().apply(pipeline, rule, query)
+        super().apply(rule, query)
 
         integrity_level_ranges ={
             'UNTRUSTED': f'{field_name} lt 4096',
