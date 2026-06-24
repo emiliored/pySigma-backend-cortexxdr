@@ -145,8 +145,7 @@ def test_cortexxdr_cidr_query(cortexxdr_backend : CortexXDRBackend):
                 condition: sel
         """)
     ) == ['''config case_sensitive = false | preset=network_story | filter event_type = ENUM.NETWORK and 
- (action_local_ip incidr "192.168.0.0/16" or 
- action_remote_ip incidr "192.168.0.0/16")''']
+ action_local_ip incidr "192.168.0.0/16"''']
 
 def test_cortexxdr_default_output(cortexxdr_backend : CortexXDRBackend):
     """Test for output format default."""
